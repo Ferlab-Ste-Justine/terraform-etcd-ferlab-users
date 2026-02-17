@@ -66,6 +66,7 @@ Some extra convenience processing is done to automatically trim expired grands a
 
 The module has the following inputs:
 - **etcd_key**: Etcd key where the centralised lists of users, roles and environments is stored
+- **prune_expired_grants**: When true, removes temporary grants that have expired (default: true)
 
 ## Outputs
 
@@ -73,5 +74,6 @@ The module has the following outputs:
 - **roles**: List of roles
 - **environments**: List of environments
 - **users**: List of users whose format is the same as the users for the **upload** modules (but with expired grants trimmed out)
+- **users_raw**: List of users without pruning expired temporary grants
 - **users_by_role**: Filtered map of users, with roles being the input key of the map which gives a list of users with the given role
 - **users_by_environment**: Filtered map of users, with environments being the input key of the map which gives a list of users with access to the given environment as value
