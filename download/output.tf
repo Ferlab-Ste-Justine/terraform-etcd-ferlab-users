@@ -1,6 +1,8 @@
 locals {
-  now = timestamp()
-  data = yamldecode(data.etcd_key.users.value)
+  data      = yamldecode(data.etcd_key.users.value)
+  users_raw = local.data.users
+  now       = timestamp()
+
   users = [
     for user in local.data.users: merge(user, {
       temporary_grants = [
@@ -9,6 +11,7 @@ locals {
       ]
     })
   ]
+
   users_by_role = {for role in local.data.roles: role => [for user in local.users: user if user.role == role]}
   users_by_environment = {for env in local.data.environments: env => [for user in local.users: user if contains(user.environments, env)]}
 }
@@ -26,6 +29,11 @@ output "environments" {
 output "users" {
   description = "List of users."
   value       = local.users
+}
+
+output "users_raw" {
+  description = "List of users without pruning expired temporary grants."
+  value       = local.users_raw
 }
 
 output "users_by_role" {
