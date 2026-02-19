@@ -66,7 +66,6 @@ Some extra convenience processing is done to automatically trim expired grands a
 
 The module has the following inputs:
 - **etcd_key**: Etcd key where the centralised lists of users, roles and environments is stored
-- **prune_expired_grants**: When true, removes temporary grants that have expired (default: true)
 
 ## Outputs
 
