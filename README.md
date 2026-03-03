@@ -66,7 +66,7 @@ Some extra convenience processing is done to automatically trim expired grands a
 
 The module has the following inputs:
 - **etcd_key**: Etcd key where the centralised lists of users, roles and environments is stored
-- **execution_time**: A string indicating the execution time in a valid timestamp format (can be the return value of "timestamp()" or otherwise the "rfc3339" property of a "time_static" resource, see provider: https://registry.terraform.io/providers/hashicorp/time/latest)
+- **execution_time**: A string indicating the execution time in a valid timestamp format (can be the return value of "timestamp()" or otherwise the "rfc3339" property of a "time_rotating" resource, see provider: https://registry.terraform.io/providers/hashicorp/time/latest)
 
 ## Outputs
 
