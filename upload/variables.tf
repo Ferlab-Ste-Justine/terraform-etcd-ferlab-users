@@ -23,7 +23,7 @@ variable "users" {
   description = "List of users"
   type        = list(object({
     username         = string
-    role             = string
+    roles            = list(string)
     environments     = list(string)
     attributes       = optional(map(string), {})
     temporary_grants = optional(list(object({

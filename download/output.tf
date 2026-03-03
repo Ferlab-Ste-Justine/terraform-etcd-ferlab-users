@@ -1,18 +1,18 @@
 locals {
+  execution_time = var.execution_time != "" ? var.execution_time : timestamp()
   data      = yamldecode(data.etcd_key.users.value)
   users_raw = local.data.users
-  now       = timestamp()
 
   users = [
     for user in local.data.users: merge(user, {
       temporary_grants = [
         for grant in try(user.temporary_grants, []) : grant
-        if timecmp(grant.expires_at, local.now) >= 0
+        if timecmp(grant.expires_at, local.execution_time) >= 0
       ]
     })
   ]
 
-  users_by_role = {for role in local.data.roles: role => [for user in local.users: user if user.role == role]}
+  users_by_role = {for role in local.data.roles: role => [for user in local.users: user if contains(user.roles, role)]}
   users_by_environment = {for env in local.data.environments: env => [for user in local.users: user if contains(user.environments, env)]}
 }
 

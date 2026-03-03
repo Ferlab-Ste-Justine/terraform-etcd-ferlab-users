@@ -8,8 +8,8 @@ resource "etcd_key" "users" {
 
   lifecycle {
     precondition {
-      condition     = local.users_role_valid && local.users_environments_valid && local.users_have_required_attributes
-      error_message = "Either a user role is invalid, a user's environment is invalid or a user is missing required attributes for their role"
+      condition     = local.users_roles_valid && local.users_environments_valid && local.users_have_required_attributes
+      error_message = "Either a user role is invalid, a user's environment is invalid or a user is missing required attributes for their roles"
     }
   }
 }

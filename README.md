@@ -7,7 +7,7 @@ The module store and retrieves the following information:
 - A list of valid environments
 - A list of users containing the following property for each entry:
   - username: Main identifier for the user
-  - role: Role of the user
+  - roles: Roles of the user
   - environments: List of environments the user has access to
   - attributes: A map of custom attributes that can be helpful to store various identifiers the user has in other systems (ex: github user)
   - temporary_grants: A list of user-specific temporary grants that a user may have. Each entry in the list have the following keys...
@@ -18,12 +18,12 @@ The module store and retrieves the following information:
 For example, a users list may look like this:
 ```
 - username: stuard
-  role: dev
+  roles: [dev, admin]
   attributes:
     github_user: stuartme
   environments: [qa, staging, prod]
 - username: clack
-  role: analyst
+  roles: [analyst]
   attributes:
     rstudio_user: "1021"
   environments: [qa, staging]
@@ -35,7 +35,7 @@ For example, a users list may look like this:
       scope: opensearch_ops
       expires_at: "2025-11-30T00:00:00Z"
 - username: grom
-  role: admin
+  roles: [admin]
   environments: [qa, staging, prod]
 ```
 
@@ -66,6 +66,7 @@ Some extra convenience processing is done to automatically trim expired grands a
 
 The module has the following inputs:
 - **etcd_key**: Etcd key where the centralised lists of users, roles and environments is stored
+- **execution_time**: A string indicating the execution time in a valid timestamp format (can be the return value of "timestamp()" or otherwise the "rfc3339" property of a "time_static" resource, see provider: https://registry.terraform.io/providers/hashicorp/time/latest)
 
 ## Outputs
 

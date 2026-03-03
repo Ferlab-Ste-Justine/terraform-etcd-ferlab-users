@@ -1,6 +1,6 @@
 locals {
-  users_role_valid = alltrue([
-    for user in var.users : contains(var.roles, user.role)
+  users_roles_valid = alltrue([
+    for user in var.users : alltrue([for role in user.roles : contains(var.roles, role)])
   ])
   users_environments_valid = alltrue([
     for user in var.users : alltrue([for env in user.environments : contains(var.environments, env)])
@@ -9,15 +9,15 @@ locals {
     for role, req_attrs in var.required_attributes : [
       for user in var.users : 
         length(setintersection(keys(user.attributes), req_attrs)) == length(req_attrs)
-        if user.role == role
+        if contains(user.roles, role)
     ]
   ]))
 }
 
-check "users_role_valid" {
+check "users_roles_valid" {
   assert {
-    condition = local.users_role_valid
-    error_message = "Each user's role must be in var.roles."
+    condition = local.users_roles_valid
+    error_message = "Each user's roles must be in var.roles."
   }
 }
 
