@@ -67,6 +67,10 @@ Some extra convenience processing is done to automatically trim expired grands a
 The module has the following inputs:
 - **etcd_key**: Etcd key where the centralised lists of users, roles and environments is stored
 - **execution_time**: A string indicating the execution time in a valid timestamp format (can be the return value of "timestamp()" or otherwise the "rfc3339" property of a "time_rotating" resource, see provider: https://registry.terraform.io/providers/hashicorp/time/latest)
+- **compute**: Option to define what computed maps to return. It has the following keys...
+  - **users_by_role**: Whether to compute the users by role map in the return values (will be null if false)
+  - **users_by_environment**: Whether to compute the users by environment map in the return values (will be null if false)
+  - **users_by_environment_role**: Whether to compute the users by environment and role nested maps in the return values (will be null if false)
 
 ## Outputs
 
@@ -77,3 +81,4 @@ The module has the following outputs:
 - **users_raw**: List of users without pruning expired temporary grants
 - **users_by_role**: Filtered map of users, with roles being the input key of the map which gives a list of users with the given role
 - **users_by_environment**: Filtered map of users, with environments being the input key of the map which gives a list of users with access to the given environment as value
+- **users_by_environment_role**: Filtered nested maps of users, with environments being the input key of the outermost map and roles being the key of the innermost map, which gives a list of users with access to the given environment and role as value

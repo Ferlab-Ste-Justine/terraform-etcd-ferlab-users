@@ -12,8 +12,13 @@ locals {
     })
   ]
 
-  users_by_role = {for role in local.data.roles: role => [for user in local.users: user if contains(user.roles, role)]}
-  users_by_environment = {for env in local.data.environments: env => [for user in local.users: user if contains(user.environments, env)]}
+  users_by_role = var.compute.users_by_role ? {for role in local.data.roles: role => [for user in local.users: user if contains(user.roles, role)]} : null
+  users_by_environment = var.compute.users_by_environment ? {for env in local.data.environments: env => [for user in local.users: user if contains(user.environments, env)]} : null
+  users_by_environment_role = var.compute.users_by_environment_role ? {
+    for env in local.data.environments: env => {
+      for role in local.data.roles: role => [for user in local.users: user if contains(user.roles, role) && contains(user.environments, env)]
+    }
+  } : null
 }
 
 output "roles" {
@@ -44,4 +49,9 @@ output "users_by_role" {
 output "users_by_environment" {
   description = "Map of filtered users lists with the environments as key."
   value       = local.users_by_environment
+}
+
+output "users_by_environment_role" {
+  description = "Nested maps of filtered users lists with the environments and the role as keys."
+  value       = local.users_by_environment_role
 }

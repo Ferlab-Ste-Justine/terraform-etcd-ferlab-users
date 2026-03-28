@@ -8,3 +8,17 @@ variable "execution_time" {
   type        = string
   default     = ""
 }
+
+variable "compute" {
+  description = "Parameter to define what processed output to compute"
+  type = object({
+    users_by_role = optional(bool, true)
+    users_by_environment = optional(bool, true)
+    users_by_environment_role = optional(bool, true)
+  })
+  default = {
+    users_by_role = true
+    users_by_environment = true
+    users_by_environment_role = true
+  }
+}
