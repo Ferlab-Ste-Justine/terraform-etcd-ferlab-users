@@ -68,17 +68,25 @@ The module has the following inputs:
 - **etcd_key**: Etcd key where the centralised lists of users, roles and environments is stored
 - **execution_time**: A string indicating the execution time in a valid timestamp format (can be the return value of "timestamp()" or otherwise the "rfc3339" property of a "time_rotating" resource, see provider: https://registry.terraform.io/providers/hashicorp/time/latest)
 - **compute**: Option to define what computed maps to return. It has the following keys...
-  - **users_by_role**: Whether to compute the users by role map in the return values (will be null if false)
-  - **users_by_environment**: Whether to compute the users by environment map in the return values (will be null if false)
-  - **users_by_environment_role**: Whether to compute the users by environment and role nested maps in the return values (will be null if false)
+  - **users_by_username**: Whether to computer the users by username map in the return values (will be null if false). Defaults to true
+  - **users_by_role**: Whether to compute the users by role map in the return values (will be null if false). Defaults to false
+  - **usernames_by_role**: Whether to compute the usernames by role map in the return values (will be null if false). Defaults to true
+  - **users_by_environment**: Whether to compute the users by environment map in the return values (will be null if false). Defaults to false
+  - **usernames_by_environment**: Whether to compute the usernames by environment map in the return values (will be null if false). Defaults to true
+  - **users_by_environment_role**: Whether to compute the users by environment and role nested maps in the return values (will be null if false). Defaults to false
+  - **usernames_by_environment_role**: Whether to compute the usernames by environment and role nested maps in the return values (will be null if false). Defaults to true
 
 ## Outputs
 
 The module has the following outputs:
 - **roles**: List of roles
 - **environments**: List of environments
-- **users**: List of users whose format is the same as the users for the **upload** modules (but with expired grants trimmed out)
 - **users_raw**: List of users without pruning expired temporary grants
+- **users**: List of users whose format is the same as the users for the **upload** modules (but with expired grants trimmed out)
+- **users_by_username**: Map of users whose format is the same as the users for the **upload** modules (but with expired grants trimmed out). Their usernames are the key to the map
 - **users_by_role**: Filtered map of users, with roles being the input key of the map which gives a list of users with the given role
+- **usernames_by_role**: Filtered map of usernames, with roles being the input key of the map which gives a list of users with the given role
 - **users_by_environment**: Filtered map of users, with environments being the input key of the map which gives a list of users with access to the given environment as value
+- **usernames_by_environment**: Filtered map of usernames, with environments being the input key of the map which gives a list of users with access to the given environment as value
 - **users_by_environment_role**: Filtered nested maps of users, with environments being the input key of the outermost map and roles being the key of the innermost map, which gives a list of users with access to the given environment and role as value
+- **usernames_by_environment_role**: Filtered nested maps of usernames, with environments being the input key of the outermost map and roles being the key of the innermost map, which gives a list of users with access to the given environment and role as value
